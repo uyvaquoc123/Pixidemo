@@ -1,0 +1,20 @@
+{"frames": {
+
+"dungeon_tiles.png":
+{
+	"frame": {"x":0,"y":0,"w":368,"h":384},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":368,"h":384},
+	"sourceSize": {"w":368,"h":384}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "dungeon_tiles.png",
+	"format": "RGBA8888",
+	"size": {"w":368,"h":384},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:745b067671bb8ea7c132d62d05bb1fbd:f82e0d7330cf102743e9f77ecdec8b36:fac50cbc8eb73b4eeef57e7ce9496ef3$"
+}
+}

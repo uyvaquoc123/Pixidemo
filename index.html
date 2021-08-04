@@ -1,0 +1,195 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>PIXI</title>
+</head>
+<script src="pixi/pixi.js"></script>
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+    }
+</style>
+
+<body>
+    <script type="text/javascript">
+        let type = "WebGL"
+        if (!PIXI.utils.isWebGLSupported()) {
+            type = "canvas"
+        }
+
+        //Aliases
+        let TextureCache = PIXI.utils.TextureCache;
+        let Application = PIXI.Application,
+            loader = PIXI.loader,
+            resources = PIXI.loader.resources,
+            Sprite = PIXI.Sprite;
+
+
+        PIXI.utils.sayHello(type)
+
+        //Create a Pixi Application
+        const app = new Application({
+            width: 256,
+            height: 256,
+            antialias: true,
+            transparent: false,
+            resolution: 1
+        });
+
+        //Add the canvas that Pixi automatically created for you to the HTML document
+        document.body.appendChild(app.view);
+
+        app.renderer.backgroundColor = 0x061639;
+        app.renderer.view.style.position = "absolute";
+        app.renderer.view.style.display = "block";
+        app.renderer.autoResize = true;
+        app.renderer.resize(window.innerWidth, window.innerHeight);
+
+        let BG, upleftground, uprightground, upmidground, midleftground, insideground, midrightground, id;
+
+
+        loader
+            .add("images/freeTileset.json")
+            .load(setup);
+
+        //This `setup` function will run when the image has loaded
+        function setup() {
+            id = resources["images/freeTileset.json"].textures;
+            //Create the sprite
+
+            BG = new Sprite(id["BG.png"]);
+            BG.width = window.screen.width;
+            BG.height = window.screen.height;
+            app.stage.addChild(BG);
+
+            upleftground = new Sprite(id["1.png"]);
+            upleftground.position.set(0, app.stage.height - upleftground.height * 3);
+            app.stage.addChild(upleftground);
+
+            uprightground = new Sprite(id["3.png"]);
+            uprightground.position.set(app.stage.width - uprightground.width, app.stage.height - uprightground.height * 3);
+            app.stage.addChild(uprightground);
+
+            let upmidground = new Sprite(id["2.png"]);
+            let numberOfupmidground = Math.round(((app.stage.width - uprightground.width) - upleftground.width) / upmidground.width);
+
+            for (let i = 0; i < numberOfupmidground; i++) {
+                let upmidground = new Sprite(id["2.png"]);
+                let x = upleftground.width + upmidground.width * i;
+                upmidground.position.set(x, app.stage.height - upmidground.height * 3);
+                app.stage.addChild(upmidground);
+            }
+
+            midleftground = new Sprite(id["4.png"]);
+            midleftground.position.set(0, app.stage.height - midleftground.height * 2);
+            app.stage.addChild(midleftground);
+
+            midrightground = new Sprite(id["6.png"]);
+            midrightground.position.set(app.stage.width - midrightground.width, app.stage.height - midrightground.height * 2);
+            app.stage.addChild(midrightground);
+
+            let insideground = new Sprite(id["5.png"]);
+            let numberOfinsideground = Math.round(((app.stage.width - midrightground.width) - midleftground.width) / insideground.width);
+
+            for (let i = 0; i < numberOfinsideground; i++) {
+                let insideground = new Sprite(id["5.png"]);
+                let x = midleftground.width + insideground.width * i - 1;
+                insideground.position.set(x, app.stage.height - insideground.height * 2);
+                app.stage.addChild(insideground);
+            }
+
+            let surfwater = new Sprite(id["17.png"]);
+            let underwater = new Sprite(id["18.png"]);
+            let numberOfSurfandUnderwater = Math.round(app.stage.width / surfwater.width);
+            for (let i = 0; i < numberOfSurfandUnderwater; i++) {
+                let surfwater = new Sprite(id["17.png"]);
+                let underwater = new Sprite(id["18.png"]);
+                let x = surfwater.width * i;
+                surfwater.position.set(x, app.stage.height - surfwater.height * 2.75);
+                underwater.position.set(x, app.stage.height - underwater.height * 1.4);
+                app.stage.addChild(surfwater);
+                app.stage.addChild(underwater);
+
+            }
+
+            let numberOfBush1234 = 1,
+                numberOfCrate = 1,
+                numberOfMushrooms = 3,
+                numberOfTree123 = 1;
+            for (let i = 0; i < numberOfBush1234; i++) {
+                let Bush1 = new Sprite(id["Bush (1).png"]),
+                    Bush2 = new Sprite(id["Bush (2).png"]),
+                    Bush3 = new Sprite(id["Bush (3).png"]),
+                    Bush4 = new Sprite(id["Bush (4).png"]),
+                    Crate = new Sprite(id["Crate.png"]),
+                    Tree_1 = new Sprite(id["Tree_1.png"]),
+                    Tree_2 = new Sprite(id["Tree_2.png"]),
+                    Stone = new Sprite(id["Stone.png"]),
+                    Sign2 = new Sprite(id["Sign_2.png"]),
+                    Tree_3 = new Sprite(id["Tree_3.png"]);
+
+                Bush1.anchor.x = Stone.anchor.x = Sign2.anchor.x = Bush2.anchor.x = Bush3.anchor.x = Bush4.anchor.x = Crate.anchor.x = Tree_1.anchor.x = Tree_2.anchor.x = Tree_3.anchor.x = 0;
+                Bush1.anchor.y = Stone.anchor.y = Sign2.anchor.y = Bush2.anchor.y = Bush3.anchor.y = Bush4.anchor.y = Crate.anchor.y = Tree_1.anchor.y = Tree_2.anchor.y = Tree_3.anchor.y = 1;
+
+
+                function randomX(Spritex) {
+                    let x = randomInt(0, app.stage.width - Tree_3.width);
+                    Spritex.position.set(x, app.stage.height - upleftground.height * 3);
+                }
+                randomX(Bush1);
+                randomX(Bush2);
+                randomX(Bush3);
+                randomX(Bush4);
+                randomX(Crate);
+                randomX(Stone);
+                randomX(Tree_1);
+                randomX(Tree_2);
+                randomX(Tree_3);
+                Sign2.position.set(app.stage.width - 200, app.stage.height - upleftground.height * 3)
+                app.stage.addChild(Bush1);
+                app.stage.addChild(Bush2);
+                app.stage.addChild(Bush3);
+                app.stage.addChild(Bush4);
+                for (var y = 0; y < numberOfMushrooms; y++) {
+                    let Mushroom1 = new Sprite(id["Mushroom_1.png"]),
+                        Mushroom2 = new Sprite(id["Mushroom_2.png"]);
+
+                    Mushroom1.anchor.x = Mushroom2.anchor.x = 0;
+                    Mushroom1.anchor.y = Mushroom2.anchor.y = 1;
+                    Mushroom1.scale.set(0.35, 0.35);
+                    Mushroom2.scale.set(0.5, 0.5);
+
+                    randomX(Mushroom1);
+                    randomX(Mushroom2);
+                    app.stage.addChild(Mushroom1);
+                    app.stage.addChild(Mushroom2);
+
+                }
+                app.stage.addChild(Stone)
+                app.stage.addChild(Tree_1);
+                app.stage.addChild(Tree_2);
+                app.stage.addChild(Tree_3);
+
+                app.stage.addChild(Crate);
+                app.stage.addChild(Sign2);
+
+            }
+            app.ticker.add(delta => gameLoop(delta));
+        }
+
+        function gameLoop(delta) {
+
+            //Move the cat 1 pixel 
+        }
+
+        function randomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+    </script>
+
+</body>
+
+</html>

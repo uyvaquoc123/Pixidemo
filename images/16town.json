@@ -1,0 +1,20 @@
+{"frames": {
+
+"16oga.png":
+{
+	"frame": {"x":0,"y":0,"w":160,"h":80},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":160,"h":80},
+	"sourceSize": {"w":160,"h":80}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "16town.png",
+	"format": "RGBA8888",
+	"size": {"w":160,"h":80},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:cce03c94c17e1522c238a9cbac046113:4b21ae8777adf1102c1fc031f3224889:3c903b66688321a127b70b50c997aa44$"
+}
+}
