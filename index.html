@@ -48,7 +48,28 @@
         app.renderer.autoResize = true;
         app.renderer.resize(window.innerWidth, window.innerHeight);
 
-        let BG, upleftground, uprightground, upmidground, midleftground, insideground, midrightground, id;
+        let BG,
+            upleftground,
+            uprightground,
+            upmidground,
+            midleftground,
+            insideground,
+            midrightground,
+            id,
+            Stone,
+            Sign2,
+            Bush1,
+            Bush2,
+            Bush3,
+            Bush4,
+            Mushroom1,
+            Mushroom2,
+            Tree_1,
+            Tree_2,
+            Tree_3,
+            surfwater,
+            underwater,
+            Crate;
 
 
         loader
@@ -73,7 +94,7 @@
             uprightground.position.set(app.stage.width - uprightground.width, app.stage.height - uprightground.height * 3);
             app.stage.addChild(uprightground);
 
-            let upmidground = new Sprite(id["2.png"]);
+            upmidground = new Sprite(id["2.png"]);
             let numberOfupmidground = Math.round(((app.stage.width - uprightground.width) - upleftground.width) / upmidground.width);
 
             for (let i = 0; i < numberOfupmidground; i++) {
@@ -91,7 +112,7 @@
             midrightground.position.set(app.stage.width - midrightground.width, app.stage.height - midrightground.height * 2);
             app.stage.addChild(midrightground);
 
-            let insideground = new Sprite(id["5.png"]);
+            insideground = new Sprite(id["5.png"]);
             let numberOfinsideground = Math.round(((app.stage.width - midrightground.width) - midleftground.width) / insideground.width);
 
             for (let i = 0; i < numberOfinsideground; i++) {
@@ -101,8 +122,8 @@
                 app.stage.addChild(insideground);
             }
 
-            let surfwater = new Sprite(id["17.png"]);
-            let underwater = new Sprite(id["18.png"]);
+            surfwater = new Sprite(id["17.png"]);
+            underwater = new Sprite(id["18.png"]);
             let numberOfSurfandUnderwater = Math.round(app.stage.width / surfwater.width);
             for (let i = 0; i < numberOfSurfandUnderwater; i++) {
                 let surfwater = new Sprite(id["17.png"]);
@@ -120,16 +141,16 @@
                 numberOfMushrooms = 3,
                 numberOfTree123 = 1;
             for (let i = 0; i < numberOfBush1234; i++) {
-                let Bush1 = new Sprite(id["Bush (1).png"]),
-                    Bush2 = new Sprite(id["Bush (2).png"]),
-                    Bush3 = new Sprite(id["Bush (3).png"]),
-                    Bush4 = new Sprite(id["Bush (4).png"]),
-                    Crate = new Sprite(id["Crate.png"]),
-                    Tree_1 = new Sprite(id["Tree_1.png"]),
-                    Tree_2 = new Sprite(id["Tree_2.png"]),
-                    Stone = new Sprite(id["Stone.png"]),
-                    Sign2 = new Sprite(id["Sign_2.png"]),
-                    Tree_3 = new Sprite(id["Tree_3.png"]);
+                Bush1 = new Sprite(id["Bush (1).png"]);
+                Bush2 = new Sprite(id["Bush (2).png"]);
+                Bush3 = new Sprite(id["Bush (3).png"]);
+                Bush4 = new Sprite(id["Bush (4).png"]);
+                Crate = new Sprite(id["Crate.png"]);
+                Tree_1 = new Sprite(id["Tree_1.png"]);
+                Tree_2 = new Sprite(id["Tree_2.png"]);
+                Stone = new Sprite(id["Stone.png"]);
+                Sign2 = new Sprite(id["Sign_2.png"]);
+                Tree_3 = new Sprite(id["Tree_3.png"]);
 
                 Bush1.anchor.x = Stone.anchor.x = Sign2.anchor.x = Bush2.anchor.x = Bush3.anchor.x = Bush4.anchor.x = Crate.anchor.x = Tree_1.anchor.x = Tree_2.anchor.x = Tree_3.anchor.x = 0;
                 Bush1.anchor.y = Stone.anchor.y = Sign2.anchor.y = Bush2.anchor.y = Bush3.anchor.y = Bush4.anchor.y = Crate.anchor.y = Tree_1.anchor.y = Tree_2.anchor.y = Tree_3.anchor.y = 1;
@@ -148,7 +169,10 @@
                 randomX(Tree_1);
                 randomX(Tree_2);
                 randomX(Tree_3);
-                Sign2.position.set(app.stage.width - 200, app.stage.height - upleftground.height * 3)
+                Sign2.position.set(app.stage.width - 200, app.stage.height - upleftground.height * 3);
+
+                Stone.vx = 0;
+
                 app.stage.addChild(Bush1);
                 app.stage.addChild(Bush2);
                 app.stage.addChild(Bush3);
@@ -168,7 +192,7 @@
                     app.stage.addChild(Mushroom2);
 
                 }
-                app.stage.addChild(Stone)
+                app.stage.addChild(Stone);
                 app.stage.addChild(Tree_1);
                 app.stage.addChild(Tree_2);
                 app.stage.addChild(Tree_3);
@@ -177,16 +201,138 @@
                 app.stage.addChild(Sign2);
 
             }
+
+            let left = keyboard("ArrowLeft"),
+                up = keyboard("ArrowUp"),
+                right = keyboard("ArrowRight"),
+                down = keyboard("ArrowDown");
+
+            //Left arrow key `press` method
+            left.press = () => {
+                //Change the cat's velocity when the key is pressed
+                Stone.vx = -5;
+                Stone.vy = 0;
+
+
+            };
+
+            //Left arrow key `release` method
+            left.release = () => {
+                //If the left arrow has been released, and the right arrow isn't down,
+                //and the cat isn't moving vertically:
+                //Stop the cat
+                if (!right.isDown && Stone.vy === 0) {
+                    Stone.vx = 0;
+                }
+                if (right.isDown && Stone.vy === 0) {
+                    Stone.vx = +5;
+                }
+            };
+
+            //Up
+            up.press = () => {
+                Stone.vy = -5;
+            };
+            up.release = () => {
+                if (!down.isDown && Stone.vx === 0) {
+                    Stone.vy = 0;
+                }
+            };
+
+            //Right
+            right.press = () => {
+                Stone.vx = 5;
+                Stone.vy = 0;
+            };
+            right.release = () => {
+                if (!left.isDown && Stone.vy === 0) {
+                    Stone.vx = 0;
+                }
+                if (left.isDown && Stone.vy === 0) {
+                    Stone.vx = -5;
+                }
+            };
+
+            //Down
+            down.press = () => {
+                Stone.vy = 5;
+            };
+            down.release = () => {
+                if (!up.isDown && Stone.vx === 0) {
+                    Stone.vy = 0;
+                }
+            };
+
+            state = play;
             app.ticker.add(delta => gameLoop(delta));
+
         }
+
+        let dx = 3;
 
         function gameLoop(delta) {
 
-            //Move the cat 1 pixel 
+            state(delta);
+        }
+
+        function play(delta) {
+            Stone.x += Stone.vx;
+
+            if (Stone.x + Stone.width >= app.stage.width || Stone.x <= 0) {
+                Stone.vx = 0;
+            }
+
         }
 
         function randomInt(min, max) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function keyboard(value) {
+            let key = {};
+            key.value = value;
+            key.isDown = false;
+            key.isUp = true;
+            key.press = undefined;
+            key.release = undefined;
+            //The `downHandler`
+            key.downHandler = event => {
+                if (event.key === key.value) {
+                    if (key.isUp && key.press) key.press();
+                    key.isDown = true;
+                    key.isUp = false;
+                    event.preventDefault();
+                }
+            };
+
+            //The `upHandler`
+            key.upHandler = event => {
+                if (event.key === key.value) {
+                    if (key.isDown && key.release) key.release();
+                    key.isDown = false;
+                    key.isUp = true;
+                    event.preventDefault();
+                }
+            };
+
+            //Attach event listeners
+            const downListener = key.downHandler.bind(key);
+            const upListener = key.upHandler.bind(key);
+
+            window.addEventListener(
+                "keydown", downListener, false
+            );
+            window.addEventListener(
+                "keyup", upListener, false
+            );
+
+            // Detach event listeners
+            key.unsubscribe = () => {
+                window.removeEventListener("keydown", downListener);
+                window.removeEventListener("keyup", upListener);
+            };
+
+            return key;
         }
     </script>
 
